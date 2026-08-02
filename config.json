@@ -1,0 +1,39 @@
+// This is auto-generated configuration file for Suddo. You can edit this file to change the rule.
+// How to edit?
+// all of rule must be in this form:
+// {
+//    "name" : "rule name",
+//    "command" : [ "program name", "arg1", "arg2", ... ], // arguments can be "*" to match any argument
+//    "action" : "ask" | "allow" | "reject"
+// }
+// also, it requires a "default" rule, which is used when there is no rule for what AI try to execute.
+// "default" : "ask" | "allow" | "reject"
+{
+    // do not remove this line.
+    "$schema": "config.schema.json",
+    "rules": [
+        // The default behavior  when there is not a rule for what AI try to execute.
+        {
+            "default": "ask"
+        },
+        {
+            "name": "install package",
+            "command": [
+                "pacman",
+                "-S",
+                "--noconfirm",
+                "*"
+            ], // I use Arch, btw.
+            "action": "allow"
+        },
+        {
+            "name": "remove file dangerously",
+            "command": [
+                "rm",
+                "-rf",
+                "*"
+            ],
+            "action": "reject"
+        }
+    ]
+}
