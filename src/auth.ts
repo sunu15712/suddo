@@ -65,7 +65,7 @@ function verifySudo(password: string): Promise<boolean> {
 
 async function checkSudoTimeStamp() {
     try {
-        const { stdout } = await execFileAsync(
+        await execFileAsync(
             "sudo",
             [
                 "-n",

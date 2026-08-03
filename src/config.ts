@@ -6,6 +6,7 @@ import { dirname } from "node:path";
 import { parse } from "jsonc-parser";
 import Ajv2020 from "ajv/dist/2020.js";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const AjvClass = Ajv2020 as unknown as new (...args: any[]) => any;
 
 import type { SuddoConfig, Rule } from "./types.js";
@@ -54,7 +55,7 @@ export async function loadConfig(): Promise<SuddoConfig> {
     return convertConfig(config);
 }
 
-function convertConfig(raw: any): SuddoConfig {
+function convertConfig(raw: { rules: Rule[] }): SuddoConfig {
     const rules: Rule[] = [];
 
     for (const rule of raw.rules) {
