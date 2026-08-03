@@ -23,20 +23,6 @@ server.registerTool(
         }
     },
     async ({ command }, extra) => {
-        const authResult = await auth();
-
-        if (authResult !== 0) {
-            return {
-                content: [
-                    {
-                        type: "text",
-                        text: "Authentication failed."
-                    }
-                ],
-                isError: true
-            };
-        }
-
         const allowed = await decide(
             config,
             command,
@@ -73,6 +59,20 @@ server.registerTool(
                         text: "Command rejected by policy."
                     }
                 ]
+            };
+        }
+
+        const authResult = await auth();
+
+        if (authResult !== 0) {
+            return {
+                content: [
+                    {
+                        type: "text",
+                        text: "Authentication failed."
+                    }
+                ],
+                isError: true
             };
         }
 

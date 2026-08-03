@@ -6,6 +6,10 @@ const execFileAsync = promisify(execFile);
 // retry 3 times to authenticate sudo.
 // return 0 if succeed, -1 if failed.
 export default async function auth(): Promise<number> {
+    if (await checkSudoTimeStamp() === 1) {
+        return 0;
+    }
+
     for (let retryCount = 0; retryCount < 3; retryCount++) {
         const password = await askPassword();
 
@@ -57,4 +61,20 @@ function verifySudo(password: string): Promise<boolean> {
             resolve(code === 0);
         });
     });
+}
+
+async function checkSudoTimeStamp() {
+    try {
+        const { stdout } = await execFileAsync(
+            "sudo",
+            [
+                "-n",
+                "-v"
+            ]
+        );
+
+        return 1;
+    } catch {
+        return 0;
+    }
 }
